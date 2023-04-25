@@ -4,15 +4,18 @@ import android.app.Notification
 import android.content.Context
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import android.util.Log
 import com.sourav.notifcationspy.data.NotificationDao
 import com.sourav.notifcationspy.data.NotificationData
 import com.sourav.notifcationspy.util.extensions.toBlankOrString
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class NotificationInterceptor: NotificationListenerService() {
 
     private var context: Context? = null
@@ -30,6 +33,7 @@ class NotificationInterceptor: NotificationListenerService() {
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
+        Log.d("FATAL", "onNotificationPosted: initiated")
         val notificationData = NotificationData(
             0,
             sbn?.packageName?.toBlankOrString(),
@@ -39,6 +43,7 @@ class NotificationInterceptor: NotificationListenerService() {
         )
 
         scope.launch {
+            Log.d("FATAL", "onNotificationPosted: inside coroutine")
             dao.addNotifInfo(notificationData)
         }
 

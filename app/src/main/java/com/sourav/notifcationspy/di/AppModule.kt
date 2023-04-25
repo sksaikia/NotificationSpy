@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.sourav.notifcationspy.data.NotificationDao
 import com.sourav.notifcationspy.data.NotificationDatabase
+import com.sourav.notifcationspy.data.repository.NotificationRepositoryImpl
+import com.sourav.notifcationspy.domain.NotificationRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,11 +35,11 @@ object AppModule {
     }
 
 
-//    @Provides
-//    @Singleton
-//    fun provideNoteRepository(db : NoteDatabase) : NoteRepository {
-//        return NoteRepositoryImpl(db.noteDao)
-//    }
+    @Provides
+    @Singleton
+    fun provideNotificationSpyRepository(db : NotificationDatabase) : NotificationRepository {
+        return NotificationRepositoryImpl(db.dao)
+    }
 
 //    @Provides
 //    @Singleton
