@@ -18,6 +18,6 @@ enum class BottomBarDestination(
     @StringRes val label: Int
 ) {
     Home(HomeScreenDestination, Icons.Default.Home, R.string.home),
-    AllNotifications(AllNotificationsScreenDestination, Icons.Default.AccountBox, R.string.app_wise_notifs),
-    AppWiseNotifications(AppWiseNotifScreenDestination, Icons.Default.Settings, R.string.all_notifications),
+    AllNotifications(AllNotificationsScreenDestination, Icons.Default.AccountBox, R.string.all_notifications),
+    AppWiseNotifications(AppWiseNotifScreenDestination, Icons.Default.Settings, R.string.app_wise_notifs),
 }

@@ -1,6 +1,7 @@
 package com.sourav.notifcationspy.presentation.appwise
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -40,7 +41,7 @@ fun AppWiseNotifScreen(viewModel: NotificationSpyViewModel = ViewModelHelper.act
 
     val finalList = mutableSet.values.toList()
 
-    LazyColumn(modifier = Modifier.fillMaxSize().background(Color.White)) {
+    LazyColumn(modifier = Modifier.fillMaxHeight(0.9f).background(Color.White)) {
         itemsIndexed(items = finalList) { _, data ->
             AppsDataCard(notificationData = data)
         }

@@ -1,6 +1,7 @@
 package com.sourav.notifcationspy.presentation.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -25,7 +26,7 @@ fun HomeScreen(viewModel: NotificationSpyViewModel = activityViewModel()) {
 
     val uiState by viewModel.uiState.collectAsState()
 
-    LazyColumn(modifier = Modifier.fillMaxSize().background(Color.White)) {
+    LazyColumn(modifier = Modifier.fillMaxHeight(0.9f).background(Color.White)) {
         itemsIndexed(items = uiState.listOfLatestNotification ?: emptyList()) { index, data ->
             NotificationDataCard(notificationData = data)
         }
