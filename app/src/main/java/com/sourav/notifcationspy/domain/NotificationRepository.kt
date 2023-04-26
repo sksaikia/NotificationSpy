@@ -9,4 +9,6 @@ interface NotificationRepository {
     suspend fun getAllNotifData(): Flow<com.sourav.notifcationspy.util.Result<List<NotificationData>>>
 
     suspend fun getAppNames(): Flow<com.sourav.notifcationspy.util.Result<List<NotificationData>>>
+
+    suspend fun getAppNotification(packageName: String): Flow<com.sourav.notifcationspy.util.Result<List<NotificationData>>>
 }

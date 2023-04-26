@@ -1,6 +1,7 @@
 package com.sourav.notifcationspy.presentation.appwise
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,15 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.sourav.notifcationspy.domain.AppsData
 import com.sourav.notifcationspy.presentation.composition.AppsDataCard
+import com.sourav.notifcationspy.presentation.destinations.AppNotificationListScreenDestination
 import com.sourav.notifcationspy.presentation.viewmodel.NotificationSpyViewModel
 import com.sourav.notifcationspy.util.ViewModelHelper
 import com.sourav.notifcationspy.util.extensions.getDisplayNameFromPackageName
 
 @Composable
 @Destination
-fun AppWiseNotifScreen(viewModel: NotificationSpyViewModel = ViewModelHelper.activityViewModel()) {
+fun AppWiseNotifScreen(navigator: DestinationsNavigator, viewModel: NotificationSpyViewModel = ViewModelHelper.activityViewModel()) {
     LaunchedEffect(key1 = true) {
         viewModel.getAppNames()
     }
@@ -43,7 +46,11 @@ fun AppWiseNotifScreen(viewModel: NotificationSpyViewModel = ViewModelHelper.act
 
     LazyColumn(modifier = Modifier.fillMaxHeight(0.9f).background(Color.White)) {
         itemsIndexed(items = finalList) { _, data ->
-            AppsDataCard(notificationData = data)
+            AppsDataCard(notificationData = data, modifier = Modifier.clickable {
+                navigator.navigate(
+                    AppNotificationListScreenDestination(data.packageName ?: "")
+                )
+            })
         }
     }
 }

@@ -29,10 +29,11 @@ import com.sourav.notifcationspy.util.extensions.toBlankOrString
 @Composable
 fun AppsDataCard(
     notificationData: AppsData,
+    modifier: Modifier = Modifier
 ) {
     //   val notificationData = NotificationData(1, "ABC", "asddas", "asdas", 1234)
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(Color.White),
     ) {

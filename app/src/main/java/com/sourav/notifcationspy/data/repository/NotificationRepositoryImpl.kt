@@ -30,4 +30,11 @@ class NotificationRepositoryImpl(
             emit(com.sourav.notifcationspy.util.Result.Success(data = list))
         }
     }
+
+    override suspend fun getAppNotification(packageName: String): Flow<Result<List<NotificationData>>> {
+        return flow {
+            val list = dao.getAppNotification(packageName)
+            emit(Result.Success(data = list))
+        }
+    }
 }

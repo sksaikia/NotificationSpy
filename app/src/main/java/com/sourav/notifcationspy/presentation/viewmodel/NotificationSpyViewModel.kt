@@ -71,4 +71,26 @@ class NotificationSpyViewModel @Inject constructor(
             }
         }
     }
+
+    fun getNotificationsByAppName(packageName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repository.getAppNotification(packageName).collectLatest { result ->
+                when (result) {
+                    is com.sourav.notifcationspy.util.Result.Success -> {
+                        _uiState.update {
+                            it.copy(
+                                listOfNotificationByPackage = result.data,
+                            )
+                        }
+                        Log.d("FATAL", "get App Data: ${result.data}")
+                    }
+                    is com.sourav.notifcationspy.util.Result.Loading -> {
+                    }
+                    is com.sourav.notifcationspy.util.Result.Error -> {
+                    }
+                }
+            }
+        }
+    }
 }
