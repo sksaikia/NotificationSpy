@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,7 @@ import com.sourav.notifcationspy.util.extensions.getDisplayNameFromPackageName
 import com.sourav.notifcationspy.util.extensions.getImageFromPackageName
 import com.sourav.notifcationspy.util.extensions.toBlankOrString
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotificationDataCard(
        notificationData: NotificationData,
@@ -74,13 +76,13 @@ fun NotificationDataCard(
             notificationData.bodyText?.toBlankOrString()?.let {
                 PopText(
                     text = it,
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
+                    fontColor = Color.Gray,
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.padding(start = 16.dp).constrainAs(bodyText) {
                         top.linkTo(headerText.bottom)
                         start.linkTo(icon.end)
                         end.linkTo(parent.end)
-                        bottom.linkTo(parent.bottom)
                         width = Dimension.fillToConstraints
                         height = Dimension.wrapContent
                     },
