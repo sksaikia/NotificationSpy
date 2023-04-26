@@ -1,5 +1,6 @@
 package com.sourav.notifcationspy.presentation.composition
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,14 +11,20 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import coil.Coil
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.design.PopText
 import com.sourav.notifcationspy.R
 import com.sourav.notifcationspy.data.NotificationData
+import com.sourav.notifcationspy.util.extensions.getDisplayNameFromPackageName
+import com.sourav.notifcationspy.util.extensions.getImageFromPackageName
 import com.sourav.notifcationspy.util.extensions.toBlankOrString
 
 @Composable
@@ -30,20 +37,24 @@ fun NotificationDataCard(
         ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(12.dp).background(Color.White)) {
             val (icon, appName, headerText, bodyText, timeStamp) = createRefs()
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "",
+
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(getImageFromPackageName(LocalContext.current, notificationData.packageName ?: ""))
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
                 modifier = Modifier.width(60.dp).height(60.dp).padding(start = 8.dp)
                     .constrainAs(icon) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
                         bottom.linkTo(parent.bottom)
-                    },
+                    }
             )
 
             notificationData.packageName?.toBlankOrString()?.let {
                 PopText(
-                    text = it,
+                    text = it.getDisplayNameFromPackageName(LocalContext.current),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(start = 16.dp, top = 16.dp).constrainAs(appName) {
