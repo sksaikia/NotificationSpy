@@ -12,7 +12,8 @@ interface NotificationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addNotifInfo(notifData: NotificationData)
 
-    @Query("SELECT * FROM notification_data ORDER BY timeStamp DESC")
+    //TODO add pagination
+    @Query("SELECT * FROM notification_data ORDER BY timeStamp DESC LIMIT 50")
     fun getAllNotifs(): List<NotificationData>
 
     @Query("SELECT * FROM notification_data ORDER BY timeStamp DESC LIMIT 25")
