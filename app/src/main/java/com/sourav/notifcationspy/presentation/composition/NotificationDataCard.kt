@@ -46,7 +46,7 @@ fun NotificationDataCard(
                     .constrainAs(icon) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
-                        bottom.linkTo(parent.bottom)
+                        bottom.linkTo(timeStamp.top)
                     },
             )
 

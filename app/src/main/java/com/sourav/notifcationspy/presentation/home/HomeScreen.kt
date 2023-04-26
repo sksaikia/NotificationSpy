@@ -22,7 +22,7 @@ fun HomeScreen(viewModel: NotificationSpyViewModel = activityViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
 
     LazyColumn(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        itemsIndexed(items = uiState.listOfNotification ?: emptyList()) { index, data ->
+        itemsIndexed(items = uiState.listOfLatestNotification ?: emptyList()) { index, data ->
             NotificationDataCard(notificationData = data)
         }
     }

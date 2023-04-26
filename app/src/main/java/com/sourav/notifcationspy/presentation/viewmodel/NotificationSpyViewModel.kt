@@ -34,7 +34,7 @@ class NotificationSpyViewModel @Inject constructor(
                     is com.sourav.notifcationspy.util.Result.Success -> {
                         _uiState.update {
                             it.copy(
-                                listOfNotification = result.data,
+                                listOfLatestNotification = result.data,
                             )
                         }
                         Log.d("FATAL", "getAllNotificationData: ${result.data}")
