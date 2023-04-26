@@ -21,6 +21,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.design.PopText
 import com.sourav.notifcationspy.data.NotificationData
+import com.sourav.notifcationspy.domain.AppsData
 import com.sourav.notifcationspy.util.extensions.displayTime
 import com.sourav.notifcationspy.util.extensions.getDisplayNameFromPackageName
 import com.sourav.notifcationspy.util.extensions.getImageFromPackageName
@@ -28,13 +29,13 @@ import com.sourav.notifcationspy.util.extensions.toBlankOrString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotificationDataCard(
-       notificationData: NotificationData,
+fun AppsDataCard(
+    notificationData: AppsData,
 ) {
  //   val notificationData = NotificationData(1, "ABC", "asddas", "asdas", 1234)
     Card(modifier = Modifier.fillMaxWidth().background(Color.White)) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth().background(Color.White).padding(12.dp)) {
-            val (icon, appName, headerText, bodyText, timeStamp) = createRefs()
+            val (icon, appName) = createRefs()
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -46,7 +47,8 @@ fun NotificationDataCard(
                     .constrainAs(icon) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
-                        bottom.linkTo(timeStamp.top)
+                        bottom.linkTo(parent.bottom)
+                        height = Dimension.fillToConstraints
                     },
             )
 
@@ -61,55 +63,6 @@ fun NotificationDataCard(
                     },
                 )
             }
-            notificationData.heading?.toBlankOrString()?.let {
-                PopText(
-                    text = it,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(start = 16.dp).constrainAs(headerText) {
-                        top.linkTo(appName.bottom)
-                        start.linkTo(icon.end)
-                        end.linkTo(parent.end)
-                        width = Dimension.fillToConstraints
-                    },
-                )
-            }
-
-            notificationData.bodyText?.toBlankOrString()?.let {
-                PopText(
-                    text = it,
-                    fontSize = 12.sp,
-                    fontColor = Color.Gray,
-                    fontWeight = FontWeight.Light,
-                    modifier = Modifier.padding(start = 16.dp).constrainAs(bodyText) {
-                        top.linkTo(headerText.bottom)
-                        start.linkTo(icon.end)
-                        end.linkTo(parent.end)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.wrapContent
-                    },
-                    shouldSetMaxLines = true
-                )
-            }
-
-            notificationData.timeStamp.apply {
-                PopText(
-                    text = displayTime(this),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontColor = Color.Black,
-                    modifier = Modifier.padding(top = 4.dp).constrainAs(timeStamp) {
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                        top.linkTo(bodyText.bottom)
-                    },
-                )
-            }
-//
-//            notificationData.apply {
-//                this.heading?.toBlankOrString()?.let { PopText(text = it) }
-//                this.packageName?.toBlankOrString()?.let { PopText(text = it) }
-//            }
         }
     }
 }

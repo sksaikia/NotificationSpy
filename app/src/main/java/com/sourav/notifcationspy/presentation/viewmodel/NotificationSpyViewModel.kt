@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sourav.notifcationspy.domain.NotificationRepository
+import com.sourav.notifcationspy.util.extensions.getDisplayNameFromPackageName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,7 +27,7 @@ class NotificationSpyViewModel @Inject constructor(
     private val _uiAction = MutableSharedFlow<NotificationSpyUiAction>(replay = 1)
     val uiAction = _uiAction.asSharedFlow()
 
-    fun getAllNotificationData() {
+    fun getRecentNotificationData() {
         viewModelScope.launch(Dispatchers.IO) {
 
             repository.getAllNotifData().collectLatest { result ->
@@ -38,6 +39,29 @@ class NotificationSpyViewModel @Inject constructor(
                             )
                         }
                         Log.d("FATAL", "getAllNotificationData: ${result.data}")
+                    }
+                    is com.sourav.notifcationspy.util.Result.Loading -> {
+                    }
+                    is com.sourav.notifcationspy.util.Result.Error -> {
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun getAppNames() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repository.getAppNames().collectLatest { result ->
+                when (result) {
+                    is com.sourav.notifcationspy.util.Result.Success -> {
+                        _uiState.update {
+                            it.copy(
+                                listOfApps = result.data,
+                            )
+                        }
+                        Log.d("FATAL", "get App Data: ${result.data}")
                     }
                     is com.sourav.notifcationspy.util.Result.Loading -> {
                     }

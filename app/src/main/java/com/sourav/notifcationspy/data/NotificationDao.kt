@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotificationDao {
@@ -14,10 +13,10 @@ interface NotificationDao {
 
     //TODO add pagination
     @Query("SELECT * FROM notification_data ORDER BY timeStamp DESC LIMIT 50")
-    fun getAllNotifs(): List<NotificationData>
+    fun getLatestNotifications(): List<NotificationData>
 
     @Query("SELECT * FROM notification_data ORDER BY timeStamp DESC LIMIT 25")
-    fun getLatestNotifs(): List<NotificationData>
+    fun getAllNotifications(): List<NotificationData>
 
     @Query("SELECT * FROM notification_data ORDER BY packageName")
     fun getNotificationSortedByPackageName(): List<NotificationData>
@@ -25,6 +24,4 @@ interface NotificationDao {
     @Query("SELECT * FROM notification_data WHERE packageName = :packageName ORDER BY timeStamp DESC")
     fun getAppNotification(packageName: String): List<NotificationData>
 
-    @Query("SELECT COUNT(id) FROM notification_data WHERE packageName = :packageName")
-    fun getAppNotificationCount(packageName: String): Int
 }
