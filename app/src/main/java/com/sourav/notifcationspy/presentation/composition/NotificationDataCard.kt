@@ -1,7 +1,5 @@
 package com.sourav.notifcationspy.presentation.composition
 
-import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,31 +10,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.Coil
+import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.design.PopText
-import com.sourav.notifcationspy.R
 import com.sourav.notifcationspy.data.NotificationData
+import com.sourav.notifcationspy.util.extensions.displayTime
 import com.sourav.notifcationspy.util.extensions.getDisplayNameFromPackageName
 import com.sourav.notifcationspy.util.extensions.getImageFromPackageName
 import com.sourav.notifcationspy.util.extensions.toBlankOrString
 
 @Composable
 fun NotificationDataCard(
-    notificationData: NotificationData,
+       notificationData: NotificationData,
 ) {
-    //   val notificationData = NotificationData(1, "ABC", "asddas", "asdas", 1234)
-    Card(modifier = Modifier.fillMaxWidth().background(Color.White)) {
-
+ //   val notificationData = NotificationData(1, "ABC", "asddas", "asdas", 1234)
+    Card(modifier = Modifier.fillMaxWidth()) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(12.dp).background(Color.White)) {
             val (icon, appName, headerText, bodyText, timeStamp) = createRefs()
-
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -44,12 +40,12 @@ fun NotificationDataCard(
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
-                modifier = Modifier.width(60.dp).height(60.dp).padding(start = 8.dp)
+                modifier = Modifier.width(50.dp).height(50.dp).padding(start = 4.dp)
                     .constrainAs(icon) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
                         bottom.linkTo(parent.bottom)
-                    }
+                    },
             )
 
             notificationData.packageName?.toBlankOrString()?.let {
@@ -57,7 +53,7 @@ fun NotificationDataCard(
                     text = it.getDisplayNameFromPackageName(LocalContext.current),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 16.dp, top = 16.dp).constrainAs(appName) {
+                    modifier = Modifier.padding(start = 16.dp, top = 8.dp).constrainAs(appName) {
                         top.linkTo(parent.top)
                         start.linkTo(icon.end)
                     },
@@ -81,20 +77,26 @@ fun NotificationDataCard(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.padding(start = 16.dp).constrainAs(bodyText) {
-                        top.linkTo(icon.bottom)
-                        start.linkTo(parent.start)
+                        top.linkTo(headerText.bottom)
+                        start.linkTo(icon.end)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(parent.bottom)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.wrapContent
                     },
+                    shouldSetMaxLines = true
                 )
             }
 
-            notificationData.timeStamp?.let {
+            notificationData.timeStamp.apply {
                 PopText(
-                    text = it.toString(),
+                    text = displayTime(this),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Light,
-                    modifier = Modifier.padding(start = 16.dp).constrainAs(timeStamp) {
+                    modifier = Modifier.padding(top = 4.dp).constrainAs(timeStamp) {
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
+                        top.linkTo(bodyText.bottom)
                     },
                 )
             }

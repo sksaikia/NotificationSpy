@@ -32,7 +32,7 @@ fun PopText(
             modifier = modifier,
             fontWeight = fontWeight,
             overflow = TextOverflow.Ellipsis,
-            maxLines = 1
+            maxLines = 3
         )
     } else {
         Text(
